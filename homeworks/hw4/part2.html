@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homework 4 Part 2 - Compound Interest Calculator">
+    <title>JavaScript - Homework #4 - Page 2</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/ui-lightness/jquery-ui.css">
+</head>
+<body>
+    <h2>Learn about compound interest</h2>
+    
+    <div id="tablesContainer"></div>
+    
+    <a href="hw4.html">Back to Homework #4</a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    
+    <script>
+        const principal = 1000;
+        const interestRates = [0.05, 0.06, 0.07];
+        const years = 5;
+        
+        for (let i = 0; i < interestRates.length; i++) {
+            const rate = interestRates[i];
+            
+            let tableHTML = '<table class="compound-table">';
+            tableHTML += '<thead><tr><th>Year</th><th>Amount on deposit</th><th>Interest Rate</th></tr></thead>';
+            tableHTML += '<tbody>';
+            
+            for (let year = 1; year <= years; year++) {
+                const amount = principal * Math.pow(1 + rate, year);
+                tableHTML += `<tr><td>${year}</td><td>$${amount.toFixed(2)}</td><td>${rate}</td></tr>`;
+            }
+            
+            tableHTML += '</tbody></table>';
+            
+            document.getElementById('tablesContainer').innerHTML += tableHTML;
+        }
+    </script>
+</body>
+</html>

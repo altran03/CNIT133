@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homework 4 Part 1 - Loop Calculations and Draggable Element">
+    <title>JavaScript - Homework #4 - Page 1</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/ui-lightness/jquery-ui.css">
+</head>
+<body>
+    <h2>Loop Calculations</h2>
+    
+    <div id="results">
+        <h3>For Loop Results (every fourth integer from 5 to 25):</h3>
+        <div id="forResults"></div>
+        
+        <h3>While Loop Results (every third integer from 3 to 18):</h3>
+        <div id="whileResults"></div>
+    </div>
+    
+    <a href="hw4.html" id="draggable-link">Back to Homework #4</a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    
+    <script>
+        let forProduct = 1;
+        let forSum = 0;
+        let forNumbers = [];
+        
+        for (let i = 5; i <= 25; i += 4) {
+            forProduct *= i;
+            forSum += i;
+            forNumbers.push(i);
+        }
+        
+        let forProductStr = forNumbers.join(' * ');
+        let forSumStr = forNumbers.join(' + ');
+        
+        document.getElementById('forResults').innerHTML = 
+            '<p>The result of ' + forProductStr + ' is <strong>' + forProduct.toLocaleString() + '</strong></p>' +
+            '<p>The result of ' + forSumStr + ' is <strong>' + forSum.toLocaleString() + '</strong></p>';
+        
+        let whileProduct = 1;
+        let whileSum = 0;
+        let whileNumbers = [];
+        let i = 3;
+        
+        while (i <= 18) {
+            whileProduct *= i;
+            whileSum += i;
+            whileNumbers.push(i);
+            i += 3;
+        }
+        
+        let whileProductStr = whileNumbers.join(' * ');
+        let whileSumStr = whileNumbers.join(' + ');
+        
+        document.getElementById('whileResults').innerHTML = 
+            '<p>The result of ' + whileProductStr + ' is <strong>' + whileProduct.toLocaleString() + '</strong></p>' +
+            '<p>The result of ' + whileSumStr + ' is <strong>' + whileSum.toLocaleString() + '</strong></p>';
+        
+        $(document).ready(function() {
+            $("#draggable-link").draggable();
+        });
+    </script>
+</body>
+</html>
