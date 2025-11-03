@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homework 5 - Part 1: Form validation without alerts">
+    <title>HW5 - Part 1</title>
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <h1>Homework 5 - Part 1</h1>
+    <p><a href="hw5.html">Back to Homework 5</a></p>
+
+    <form id="userForm" novalidate>
+        <fieldset>
+            <legend>Full Name</legend>
+            <label for="fullName">Enter your full name:</label>
+            <input type="text" id="fullName" name="fullName" autocomplete="name">
+        </fieldset>
+
+        <fieldset>
+            <legend>Age Group</legend>
+            <label><input type="radio" name="ageGroup" id="age_lt21" value="lt21"> less than 21</label>
+            <label><input type="radio" name="ageGroup" id="age_21_50" value="21to50"> between 21 and 50</label>
+            <label><input type="radio" name="ageGroup" id="age_gt50" value="gt50"> older than 50</label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Browsers you have used</legend>
+            <label><input type="checkbox" name="browsers" id="b_firefox" value="Firefox"> Firefox</label>
+            <label><input type="checkbox" name="browsers" id="b_edge" value="Edge"> Edge</label>
+            <label><input type="checkbox" name="browsers" id="b_chrome" value="Chrome"> Chrome</label>
+            <label><input type="checkbox" name="browsers" id="b_safari" value="Safari"> Safari</label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Preferred Movie Type</legend>
+            <label for="movie">Select a movie type:</label>
+            <select id="movie" name="movie">
+                <option value="" selected>-- Select --</option>
+                <option>Action</option>
+                <option>Comedy</option>
+                <option>Drama</option>
+                <option>Documentary</option>
+                <option>Science Fiction</option>
+            </select>
+        </fieldset>
+
+        <div class="controls">
+            <button type="submit">Submit</button>
+            <button type="button" id="clearBtn">Clear</button>
+        </div>
+    </form>
+
+    <div id="output" aria-live="polite"></div>
+
+    <script>
+        (function () {
+            const form = document.getElementById('userForm');
+            const output = document.getElementById('output');
+            const clearBtn = document.getElementById('clearBtn');
+
+            function setOutput(messages, ok) {
+                if (Array.isArray(messages)) {
+                    output.innerHTML = messages.map(m => `<p class="${ok ? 'success' : 'error'}">${m}</p>`).join('');
+                } else {
+                    output.innerHTML = `<p class="${ok ? 'success' : 'error'}">${messages}</p>`;
+                }
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const messages = [];
+
+                const fullName = form.fullName.value.trim();
+                if (!fullName) {
+                    messages.push('Please enter your full name.');
+                }
+
+                const ageSelected = !!form.querySelector('input[name="ageGroup"]:checked');
+                if (!ageSelected) {
+                    messages.push('Please select an age group.');
+                }
+
+                const browserSelected = form.querySelectorAll('input[name="browsers"]:checked').length > 0;
+                if (!browserSelected) {
+                    messages.push('Please select at least one browser you have used.');
+                }
+
+                const movie = form.movie.value;
+                if (!movie) {
+                    messages.push('Please select a preferred movie type.');
+                }
+
+                if (messages.length > 0) {
+                    setOutput(messages, false);
+                    return;
+                }
+
+                setOutput('Thanks, your data was submitted!', true);
+            });
+
+            clearBtn.addEventListener('click', function () {
+                form.reset();
+                output.innerHTML = '';
+                document.getElementById('fullName').focus();
+            });
+        })();
+    </script>
+</body>
+</html>
+
+

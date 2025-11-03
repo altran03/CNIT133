@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homework 5 - Part 3: State info lookup using arrays">
+    <title>HW5 - Part 3</title>
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <h1>Homework 5 - Part 3</h1>
+    <p><a href="hw5.html">Back to Homework 5</a></p>
+
+    <form id="stateForm" novalidate>
+        <fieldset>
+            <legend>State Information Lookup</legend>
+            <label for="stateInput">Enter state full name or 2-letter abbreviation:</label>
+            <input type="text" id="stateInput" name="stateInput" placeholder="e.g., California or CA">
+            <div class="hint">Data source: July 2019 census (AL, AK, AZ, AR, CA, CO)</div>
+        </fieldset>
+
+        <div class="controls">
+            <button type="submit">State Info</button>
+            <button type="button" id="clearBtn">Clear</button>
+        </div>
+
+        <textarea id="output" aria-label="Result" readonly></textarea>
+    </form>
+
+    <script>
+        (function () {
+            // Two-dimensional array: [abbr, name, capital, population]
+            const statesData = [
+                ['AL', 'Alabama', 'Montgomery', '4,903,185'],
+                ['AK', 'Alaska', 'Juneau', '731,545'],
+                ['AZ', 'Arizona', 'Phoenix', '7,278,717'],
+                ['AR', 'Arkansas', 'Little Rock', '3,017,825'],
+                ['CA', 'California', 'Sacramento', '39,512,223'],
+                ['CO', 'Colorado', 'Denver', '5,758,736']
+            ];
+
+            const form = document.getElementById('stateForm');
+            const input = document.getElementById('stateInput');
+            const output = document.getElementById('output');
+            const clearBtn = document.getElementById('clearBtn');
+
+            function normalize(str) {
+                return (str || '').trim().toLowerCase();
+            }
+
+            function findState(query) {
+                const q = normalize(query);
+                if (!q) return null;
+                return statesData.find(([abbr, name]) =>
+                    abbr.toLowerCase() === q || name.toLowerCase() === q
+                ) || null;
+            }
+
+            function showMessage(msg, ok) {
+                output.value = msg;
+                output.classList.toggle('success', !!ok);
+                output.classList.toggle('error', !ok);
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const value = input.value;
+                if (!value || !value.trim()) {
+                    showMessage('Please enter a state name or 2-letter abbreviation.', false);
+                    input.focus();
+                    return;
+                }
+
+                const match = findState(value);
+                if (!match) {
+                    const available = statesData.map(([abbr, name]) => `${name} (${abbr})`).join(', ');
+                    showMessage(`Sorry, we do not have information about this state! We only have information about: ${available}.`, false);
+                    input.focus();
+                    return;
+                }
+
+                const [abbr, name, capital, population] = match;
+                const lines = [
+                    'Thanks for your inquiry, here is the information you requested:',
+                    `State abbr = ${abbr}`,
+                    `State Name = ${name}`,
+                    `Capital = ${capital}`,
+                    `Population = ${population}`
+                ];
+                showMessage(lines.join('\n'), true);
+            });
+
+            clearBtn.addEventListener('click', function () {
+                form.reset();
+                output.value = '';
+                output.classList.remove('success', 'error');
+                input.focus();
+            });
+        })();
+    </script>
+</body>
+</html>
+
+

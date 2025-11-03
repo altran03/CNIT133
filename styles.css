@@ -107,3 +107,41 @@ li{
 .compound-table tbody tr:hover {
     background-color: #e1f5fe;
 }
+
+/* Homework 5 Shared Styles */
+.error {
+    color: #b00020;
+}
+
+.success {
+    color: #006400;
+}
+
+fieldset {
+    margin-bottom: 1rem;
+}
+
+.controls {
+    display: flex;
+    gap: .5rem;
+}
+
+/* HW5 Part 2 */
+.row {
+    margin: 1rem 0;
+}
+
+select {
+    min-width: 16rem;
+}
+
+/* HW5 Part 3 */
+textarea {
+    width: 100%;
+    min-height: 8rem;
+}
+
+.hint {
+    font-size: .9rem;
+    color: #555;
+}

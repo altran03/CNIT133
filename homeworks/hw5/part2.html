@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homework 5 - Part 2: Pulldown menus opening links in new tab">
+    <title>HW5 - Part 2</title>
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <h1>Homework 5 - Part 2</h1>
+    <p><a href="hw5.html">Back to Homework 5</a></p>
+
+    <div class="row">
+        <label for="menuOnChange"><strong>Menu A (onchange):</strong></label>
+        <select id="menuOnChange">
+            <option value="">-- Select a site --</option>
+            <option value="https://www.ccsf.edu">City College of SF</option>
+            <option value="https://developer.mozilla.org">MDN Web Docs</option>
+            <option value="https://www.w3schools.com">W3Schools</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <label for="menuWithButton"><strong>Menu B (button click):</strong></label>
+        <select id="menuWithButton">
+            <option value="">-- Select a site --</option>
+            <option value="https://www.ccsf.edu">City College of SF</option>
+            <option value="https://developer.mozilla.org">MDN Web Docs</option>
+            <option value="https://www.w3schools.com">W3Schools</option>
+        </select>
+        <span class="controls">
+            <button type="button" id="goBtn">Go</button>
+            <button type="button" id="clearBtn">Clear</button>
+        </span>
+    </div>
+
+    <div id="output" aria-live="polite"></div>
+
+    <script>
+        (function () {
+            const out = document.getElementById('output');
+
+            function openInNewTab(url) {
+                if (!url) {
+                    out.textContent = 'Please select a destination first.';
+                    return;
+                }
+                window.open(url, '_blank', 'noopener');
+                out.textContent = 'Opened in a new tab.';
+            }
+
+            document.getElementById('menuOnChange').addEventListener('change', function (e) {
+                openInNewTab(e.target.value);
+            });
+
+            document.getElementById('goBtn').addEventListener('click', function () {
+                const url = document.getElementById('menuWithButton').value;
+                openInNewTab(url);
+            });
+
+            document.getElementById('clearBtn').addEventListener('click', function () {
+                document.getElementById('menuWithButton').selectedIndex = 0;
+                document.getElementById('menuOnChange').selectedIndex = 0;
+                out.textContent = '';
+                document.getElementById('menuOnChange').focus();
+            });
+        })();
+    </script>
+</body>
+</html>
+
+
