@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homework 6 - Part 3: regular expression practice">
+    <title>HW6 - Part 3</title>
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <h1>Homework 6 - Part 3</h1>
+    <p><a href="hw6.html">Back to Homework 6</a></p>
+
+    <form id="phoneForm" novalidate>
+        <fieldset>
+            <legend>phone number</legend>
+            <label for="phoneInput">Enter phone number (format: (999) 999-9999):</label>
+            <input type="text" id="phoneInput" name="phoneInput" placeholder="(123) 456-7890">
+        </fieldset>
+        <div class="controls">
+            <button type="button" id="validateBtn">Validate</button>
+            <button type="reset" id="clearBtn">Clear</button>
+        </div>
+    </form>
+
+    <div id="output" aria-live="polite"></div>
+
+    <script>
+        (function () {
+            const phoneInput = document.getElementById('phoneInput');
+            const validateBtn = document.getElementById('validateBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const output = document.getElementById('output');
+
+            const phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
+
+            function handleValidate() {
+                const phone = phoneInput.value.trim();
+                output.innerHTML = '';
+
+                if (!phoneRegex.test(phone)) {
+                    output.innerHTML = '<p class="error">Please enter the phone number in the format (999) 999-9999.</p>';
+                    return;
+                }
+
+                output.innerHTML = '<p class="success">Thank you for your phone number, ' + phone + '. One of our agents will contact you soon.</p>';
+            }
+
+            function handleClear() {
+                output.innerHTML = '';
+                phoneInput.focus();
+            }
+
+            validateBtn.addEventListener('click', handleValidate);
+            clearBtn.addEventListener('click', handleClear);
+        })();
+    </script>
+</body>
+</html>
+

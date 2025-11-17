@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homework 6 - Part 2: character search tool">
+    <title>HW6 - Part 2</title>
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <h1>Homework 6 - Part 2</h1>
+    <p><a href="hw6.html">Back to Homework 6</a></p>
+
+    <form id="searchForm" novalidate>
+        <fieldset>
+            <legend>text entry</legend>
+            <label for="contentArea">Enter your content:</label>
+            <textarea id="contentArea" name="contentArea" rows="8" cols="70"></textarea>
+        </fieldset>
+
+        <fieldset>
+            <legend>character lookup</legend>
+            <label for="searchChar">Character to search for:</label>
+            <input type="text" id="searchChar" name="searchChar" maxlength="1">
+        </fieldset>
+
+        <div class="controls">
+            <button type="button" id="searchBtn">Search</button>
+            <button type="reset" id="clearBtn">Clear</button>
+        </div>
+    </form>
+
+    <div id="output" aria-live="polite"></div>
+
+    <script>
+        (function () {
+            const contentArea = document.getElementById('contentArea');
+            const searchCharInput = document.getElementById('searchChar');
+            const searchBtn = document.getElementById('searchBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const output = document.getElementById('output');
+
+            function countOccurrences(text, char) {
+                let count = 0;
+                const search = char.toLowerCase();
+                const source = text.toLowerCase();
+
+                for (let i = 0; i < source.length; i++) {
+                    if (source.charAt(i) === search) {
+                        count++;
+                    }
+                }
+                return count;
+            }
+
+            function openNotFoundWindow(char) {
+                const features = 'width=300,height=100,left=50,top=50';
+                const win = window.open('', 'charNotFound', features);
+                if (!win) {
+                    return;
+                }
+
+                const escapedChar = char === '' ? '(none)' : char;
+
+                win.document.write(
+                    '<!DOCTYPE html>' +
+                    '<html lang="en"><head><meta charset="UTF-8"><title>Not Found</title></head>' +
+                    '<body style="font-family: Arial, sans-serif; padding: 10px;">' +
+                    '<p>Search character "' + escapedChar + '" not found in the content you typed.</p>' +
+                    '<button onclick="window.close()">Close</button>' +
+                    '</body></html>'
+                );
+                win.document.close();
+            }
+
+            function handleSearch() {
+                const text = contentArea.value;
+                const char = searchCharInput.value;
+                output.innerHTML = '';
+
+                if (char.length !== 1) {
+                    output.innerHTML = '<p class="error">Please enter exactly one character to search for.</p>';
+                    return;
+                }
+
+                const count = countOccurrences(text, char);
+
+                if (count > 0) {
+                    const times = count === 1 ? 'time' : 'times';
+                    output.innerHTML = '<p class="success">The character "' + char + '" appears ' + count + ' ' + times + ' in the text.</p>';
+                } else {
+                    output.innerHTML = '';
+                    openNotFoundWindow(char);
+                }
+            }
+
+            function handleClear() {
+                output.innerHTML = '';
+                contentArea.focus();
+            }
+
+            searchBtn.addEventListener('click', handleSearch);
+            clearBtn.addEventListener('click', handleClear);
+        })();
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homework 6 - Part 1: floating-point rounding practice">
+    <title>HW6 - Part 1</title>
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <h1>Homework 6 - Part 1</h1>
+    <p><a href="hw6.html">Back to Homework 6</a></p>
+
+    <form id="numberForm" novalidate>
+        <fieldset>
+            <legend>floating-point input</legend>
+            <label for="floatInput">Enter a number with at least 4 decimals:</label>
+            <input type="text" id="floatInput" name="floatInput">
+        </fieldset>
+        <div class="controls">
+            <button type="button" id="submitBtn">Submit</button>
+            <button type="reset" id="clearBtn">Clear</button>
+        </div>
+    </form>
+
+    <div id="output" aria-live="polite"></div>
+
+    <script>
+        (function () {
+            const floatInput = document.getElementById('floatInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const output = document.getElementById('output');
+
+            function hasAtLeastFourDecimals(value) {
+                const parts = value.split('.');
+                if (parts.length !== 2) {
+                    return false;
+                }
+                return parts[1].length >= 4;
+            }
+
+            function handleSubmit() {
+                const rawValue = floatInput.value.trim();
+                output.innerHTML = '';
+
+                if (rawValue === '' || !hasAtLeastFourDecimals(rawValue)) {
+                    output.innerHTML = '<p class="error">You need to type a number with at least 4 decimals, please try again.</p>';
+                    return;
+                }
+
+                const num = parseFloat(rawValue);
+
+                if (Number.isNaN(num)) {
+                    output.innerHTML = '<p class="error">The value you entered is not a valid number. Please try again.</p>';
+                    return;
+                }
+
+                const roundedInteger = Math.round(num);
+                const sqrtRounded = Math.round(Math.sqrt(num));
+
+                const roundedTenths = (Math.round(num * 10) / 10).toFixed(1);
+                const roundedHundredths = (Math.round(num * 100) / 100).toFixed(2);
+                const roundedThousandths = (Math.round(num * 1000) / 1000).toFixed(3);
+
+                output.innerHTML = [
+                    '<p class="success">You typed number ' + num + '</p>',
+                    '<p>Rounded to the nearest integer = ' + roundedInteger + '</p>',
+                    '<p>Square root rounded to integer = ' + sqrtRounded + '</p>',
+                    '<p>Rounded to the nearest 10th position = ' + roundedTenths + '</p>',
+                    '<p>Rounded to the nearest 100th position = ' + roundedHundredths + '</p>',
+                    '<p>Rounded to the nearest 1000th position = ' + roundedThousandths + '</p>'
+                ].join('');
+            }
+
+            function handleClear() {
+                output.innerHTML = '';
+                floatInput.focus();
+            }
+
+            submitBtn.addEventListener('click', handleSubmit);
+            clearBtn.addEventListener('click', handleClear);
+        })();
+    </script>
+</body>
+</html>
+
