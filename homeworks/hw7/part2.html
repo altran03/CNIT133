@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homework 7 Part 2 - navigation with event-driven menus">
+    <title>Homework 7 - Part 2</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-3fp9ZotH8CfvY7mDRbugzuDUFcAUwvx6pRP70dNDOm8=" crossorigin="anonymous"></script>
+    <style>
+        nav {
+            margin: 2rem 0;
+        }
+
+        .menu {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            padding: 0;
+        }
+
+        .menu > li {
+            position: relative;
+            background-color: #004b87;
+            border-radius: 4px;
+        }
+
+        .menu > li > a {
+            display: block;
+            color: #fff;
+            padding: 0.75rem 1.25rem;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .submenu {
+            list-style: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background-color: #ffffff;
+            border: 1px solid #c2d1e3;
+            border-radius: 0 0 4px 4px;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            display: none;
+            z-index: 10;
+        }
+
+        .submenu li a {
+            display: block;
+            padding: 0.45rem 1rem;
+            color: #0f355c;
+            text-decoration: none;
+        }
+
+        .submenu li a:hover {
+            background-color: #f0f6ff;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Homework 7 Part 2 - Event Driven Navigation</h1>
+    </header>
+
+    <nav aria-label="Homework shortcuts">
+        <ul class="menu">
+            <li>
+                <a href="../hw2/hw2.html">Homework 2</a>
+                <ul class="submenu">
+                    <li><a href="../hw2/part1.html">Part 1</a></li>
+                    <li><a href="../hw2/part2.html">Part 2</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="../hw3/hw3.html">Homework 3</a>
+                <ul class="submenu">
+                    <li><a href="../hw3/part1.html">Part 1</a></li>
+                    <li><a href="../hw3/part2.html">Part 2</a></li>
+                    <li><a href="../hw3/extracredit.html">Extra Credit</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="../hw4/hw4.html">Homework 4</a>
+                <ul class="submenu">
+                    <li><a href="../hw4/part1.html">Part 1</a></li>
+                    <li><a href="../hw4/part2.html">Part 2</a></li>
+                    <li><a href="../hw4/extracredit.html">Extra Credit</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <a class="back-link" href="hw7.html">Back to Homework 7</a>
+
+    <script>
+        $(function () {
+            $(".menu > li").on("mouseenter", function () {
+                $(this).children(".submenu").stop(true, true).slideDown(200);
+            }).on("mouseleave", function () {
+                $(this).children(".submenu").stop(true, true).slideUp(150);
+            });
+        });
+    </script>
+</body>
+</html>
+
